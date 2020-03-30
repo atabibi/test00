@@ -75,6 +75,7 @@
             // 
             this.personBindingSource.DataMember = "Person";
             this.personBindingSource.DataSource = this.tbDbDataSet;
+            this.personBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.personBindingSource_DataError);
             // 
             // personTableAdapter
             // 
@@ -248,6 +249,10 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(811, 556);
             this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
+            this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
+            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
+            this.dataGridView1.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_RowValidating);
             // 
             // idDataGridViewTextBoxColumn
             // 

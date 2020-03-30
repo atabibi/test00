@@ -50,17 +50,28 @@ namespace TbPeopleList
 
         private void SaveChanges()
         {
-            _ = dataGridView1.EndEdit();
-            personBindingSource.EndEdit();
-            int n = personTableAdapter.Update(personBindingSource.DataSource as TbDbDataSet);
-            if (n == 0)
+            try
             {
-                MessageBox.Show("هیچ تغییری برای ذخیره کردن یافت نشد.");
+                _ = dataGridView1.EndEdit();
+                personBindingSource.EndEdit();
+                int n = personTableAdapter.Update(personBindingSource.DataSource as TbDbDataSet);
+                if (n == 0)
+                {
+                    MessageBox.Show("هیچ تغییری برای ذخیره کردن یافت نشد.");
+                }
+                else
+                {
+                    MessageBox.Show($"{n} تغییر در بانک اطلاعاتی ایجاد شد");
+                }
             }
-            else
+            catch (Exception err)
             {
-                MessageBox.Show($"{n} تغییر در بانک اطلاعاتی ایجاد شد");
+                MessageBox.Show("خطا در ذخیره سازی تغییرات: " + err.Message,
+                                "خطا",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
+          
         }
 
         private void btnCancelChanges_Click(object sender, EventArgs e)
@@ -94,6 +105,54 @@ namespace TbPeopleList
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridView dg = (DataGridView)sender;
+            // Current row record
+            string rowNumber = (e.RowIndex + 1).ToString();
+
+            // Format row based on number of records displayed by using leading zeros
+            while (rowNumber.Length < dg.RowCount.ToString().Length) rowNumber = "0" + rowNumber;
+
+            // Position text
+            SizeF size = e.Graphics.MeasureString(rowNumber, this.Font);
+            if (dg.RowHeadersWidth < (int)(size.Width + 20)) dg.RowHeadersWidth = (int)(size.Width + 20);
+
+            // Use default system text brush
+            Brush b = SystemBrushes.ControlText;
+
+            // Draw row number
+            e.Graphics.DrawString(rowNumber, dg.Font, b, e.RowBounds.Size.Width - 25, e.RowBounds.Location.Y + ((e.RowBounds.Height - size.Height) / 2));
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView1_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            
+        }
+
+        private void personBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message);
+        }
+
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.Exception.GetType() == typeof(NoNullAllowedException))
+            {
+                MessageBox.Show($"مقدار وارد شده برای '{dataGridView1.Columns[e.ColumnIndex].HeaderText}' در سطر {e.RowIndex + 1}  نمی تواند تهی باشد.");
+            }
+            else
+            {
+                MessageBox.Show(e.Exception.Message);
+            }
+           
         }
     }
 }
