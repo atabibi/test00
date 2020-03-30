@@ -91,16 +91,16 @@ namespace TbPeopleList
             _ = dataGridView1.EndEdit();
             if (tbDbDataSet.HasChanges())
             {
-                var dlgResult = MessageBox.Show("تغییراتی که داده اید را هنوز ذخیره نکرده اید. آیا میخواهید آنها را ذخیره کنید؟",
+                var dlgResult = MessageBox.Show("تغییراتی که داده اید را هنوز ذخیره نکرده اید. آیا میخواهید با اینحال خارج شوید؟",
                                                 "اخطار!",
-                                                MessageBoxButtons.YesNoCancel,
+                                                MessageBoxButtons.YesNo,
                                                 MessageBoxIcon.Warning);
 
                 if (dlgResult == DialogResult.Yes)
                 {
                     SaveChanges();
                 }
-                else if (dlgResult == DialogResult.Cancel)
+                else if (dlgResult == DialogResult.No)
                 {
                     e.Cancel = true;
                 }
@@ -150,9 +150,18 @@ namespace TbPeopleList
             }
             else
             {
-                MessageBox.Show(e.Exception.Message);
+                if (e.RowIndex == 0)
+                    return;
+                if (e.ColumnIndex !=  -1)
+                    MessageBox.Show($"خطا در ستون {dataGridView1.Columns[e.ColumnIndex].HeaderText} : { e.Exception.Message}" );
             }
            
+        }
+
+        private void dataGridView1_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.Cells["FName"].Value = "نامشخص";
+            e.Row.Cells["LName"].Value = "نامشخص";
         }
     }
 }

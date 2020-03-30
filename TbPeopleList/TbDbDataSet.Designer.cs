@@ -285,8 +285,6 @@ namespace TbPeopleList {
             
             private global::System.Data.DataColumn columnLName;
             
-            private global::System.Data.DataColumn columnMablagh;
-            
             private global::System.Data.DataColumn columnParentName;
             
             private global::System.Data.DataColumn columnJadName;
@@ -298,6 +296,8 @@ namespace TbPeopleList {
             private global::System.Data.DataColumn columnShomareCard;
             
             private global::System.Data.DataColumn columnDesc;
+            
+            private global::System.Data.DataColumn columnGender;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -358,14 +358,6 @@ namespace TbPeopleList {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn MablaghColumn {
-                get {
-                    return this.columnMablagh;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn ParentNameColumn {
                 get {
                     return this.columnParentName;
@@ -414,6 +406,14 @@ namespace TbPeopleList {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn GenderColumn {
+                get {
+                    return this.columnGender;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -449,19 +449,19 @@ namespace TbPeopleList {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public PersonRow AddPersonRow(string FName, string LName, decimal Mablagh, string ParentName, string JadName, string MelliCode, string ShomareHesab, string ShomareCard, string Desc) {
+            public PersonRow AddPersonRow(string FName, string LName, string ParentName, string JadName, string MelliCode, string ShomareHesab, string ShomareCard, string Desc, bool Gender) {
                 PersonRow rowPersonRow = ((PersonRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         FName,
                         LName,
-                        Mablagh,
                         ParentName,
                         JadName,
                         MelliCode,
                         ShomareHesab,
                         ShomareCard,
-                        Desc};
+                        Desc,
+                        Gender};
                 rowPersonRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPersonRow);
                 return rowPersonRow;
@@ -494,13 +494,13 @@ namespace TbPeopleList {
                 this.columnId = base.Columns["Id"];
                 this.columnFName = base.Columns["FName"];
                 this.columnLName = base.Columns["LName"];
-                this.columnMablagh = base.Columns["Mablagh"];
                 this.columnParentName = base.Columns["ParentName"];
                 this.columnJadName = base.Columns["JadName"];
                 this.columnMelliCode = base.Columns["MelliCode"];
                 this.columnShomareHesab = base.Columns["ShomareHesab"];
                 this.columnShomareCard = base.Columns["ShomareCard"];
                 this.columnDesc = base.Columns["Desc"];
+                this.columnGender = base.Columns["Gender"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -512,8 +512,6 @@ namespace TbPeopleList {
                 base.Columns.Add(this.columnFName);
                 this.columnLName = new global::System.Data.DataColumn("LName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLName);
-                this.columnMablagh = new global::System.Data.DataColumn("Mablagh", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMablagh);
                 this.columnParentName = new global::System.Data.DataColumn("ParentName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnParentName);
                 this.columnJadName = new global::System.Data.DataColumn("JadName", typeof(string), null, global::System.Data.MappingType.Element);
@@ -526,6 +524,8 @@ namespace TbPeopleList {
                 base.Columns.Add(this.columnShomareCard);
                 this.columnDesc = new global::System.Data.DataColumn("Desc", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDesc);
+                this.columnGender = new global::System.Data.DataColumn("Gender", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGender);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
                 this.columnId.AutoIncrement = true;
@@ -536,6 +536,7 @@ namespace TbPeopleList {
                 this.columnId.Unique = true;
                 this.columnFName.AllowDBNull = false;
                 this.columnFName.MaxLength = 50;
+                this.columnLName.AllowDBNull = false;
                 this.columnLName.MaxLength = 50;
                 this.columnParentName.MaxLength = 50;
                 this.columnJadName.MaxLength = 50;
@@ -543,6 +544,8 @@ namespace TbPeopleList {
                 this.columnShomareHesab.MaxLength = 50;
                 this.columnShomareCard.MaxLength = 50;
                 this.columnDesc.MaxLength = 2147483647;
+                this.columnGender.AllowDBNull = false;
+                this.columnGender.DefaultValue = ((bool)(false));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -709,31 +712,10 @@ namespace TbPeopleList {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string LName {
                 get {
-                    try {
-                        return ((string)(this[this.tablePerson.LNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LName\' in table \'Person\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tablePerson.LNameColumn]));
                 }
                 set {
                     this[this.tablePerson.LNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public decimal Mablagh {
-                get {
-                    try {
-                        return ((decimal)(this[this.tablePerson.MablaghColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Mablagh\' in table \'Person\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePerson.MablaghColumn] = value;
                 }
             }
             
@@ -835,26 +817,13 @@ namespace TbPeopleList {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsLNameNull() {
-                return this.IsNull(this.tablePerson.LNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetLNameNull() {
-                this[this.tablePerson.LNameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsMablaghNull() {
-                return this.IsNull(this.tablePerson.MablaghColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetMablaghNull() {
-                this[this.tablePerson.MablaghColumn] = global::System.Convert.DBNull;
+            public bool Gender {
+                get {
+                    return ((bool)(this[this.tablePerson.GenderColumn]));
+                }
+                set {
+                    this[this.tablePerson.GenderColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1092,24 +1061,21 @@ namespace TbPeopleList.TbDbDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Id", "Id");
             tableMapping.ColumnMappings.Add("FName", "FName");
             tableMapping.ColumnMappings.Add("LName", "LName");
-            tableMapping.ColumnMappings.Add("Mablagh", "Mablagh");
             tableMapping.ColumnMappings.Add("ParentName", "ParentName");
             tableMapping.ColumnMappings.Add("JadName", "JadName");
             tableMapping.ColumnMappings.Add("MelliCode", "MelliCode");
             tableMapping.ColumnMappings.Add("ShomareHesab", "ShomareHesab");
             tableMapping.ColumnMappings.Add("ShomareCard", "ShomareCard");
             tableMapping.ColumnMappings.Add("Desc", "Desc");
+            tableMapping.ColumnMappings.Add("Gender", "Gender");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Person] WHERE (([Id] = @Original_Id) AND ([FName] = @Original_FName) AND ((@IsNull_LName = 1 AND [LName] IS NULL) OR ([LName] = @Original_LName)) AND ((@IsNull_Mablagh = 1 AND [Mablagh] IS NULL) OR ([Mablagh] = @Original_Mablagh)) AND ((@IsNull_ParentName = 1 AND [ParentName] IS NULL) OR ([ParentName] = @Original_ParentName)) AND ((@IsNull_JadName = 1 AND [JadName] IS NULL) OR ([JadName] = @Original_JadName)) AND ((@IsNull_MelliCode = 1 AND [MelliCode] IS NULL) OR ([MelliCode] = @Original_MelliCode)) AND ((@IsNull_ShomareHesab = 1 AND [ShomareHesab] IS NULL) OR ([ShomareHesab] = @Original_ShomareHesab)) AND ((@IsNull_ShomareCard = 1 AND [ShomareCard] IS NULL) OR ([ShomareCard] = @Original_ShomareCard)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [Person] WHERE (([Id] = @Original_Id) AND ([FName] = @Original_FName) AND ([LName] = @Original_LName) AND ((@IsNull_ParentName = 1 AND [ParentName] IS NULL) OR ([ParentName] = @Original_ParentName)) AND ((@IsNull_JadName = 1 AND [JadName] IS NULL) OR ([JadName] = @Original_JadName)) AND ((@IsNull_MelliCode = 1 AND [MelliCode] IS NULL) OR ([MelliCode] = @Original_MelliCode)) AND ((@IsNull_ShomareHesab = 1 AND [ShomareHesab] IS NULL) OR ([ShomareHesab] = @Original_ShomareHesab)) AND ((@IsNull_ShomareCard = 1 AND [ShomareCard] IS NULL) OR ([ShomareCard] = @Original_ShomareCard)) AND ([Gender] = @Original_Gender))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_LName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Mablagh", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Mablagh", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Mablagh", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "Mablagh", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ParentName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ParentName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_JadName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "JadName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -1120,40 +1086,38 @@ namespace TbPeopleList.TbDbDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ShomareHesab", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareHesab", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ShomareCard", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ShomareCard", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Gender", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Gender", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [Person] ([FName], [LName], [Mablagh], [ParentName], [JadName], [MelliCode], [ShomareHesab], [ShomareCard], [Desc]) VALUES (@FName, @LName, @Mablagh, @ParentName, @JadName, @MelliCode, @ShomareHesab, @ShomareCard, @Desc);
-SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, [Desc] FROM Person WHERE (Id = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [Person] ([FName], [LName], [ParentName], [JadName], [MelliCode], [ShomareHesab], [ShomareCard], [Desc], [Gender]) VALUES (@FName, @LName, @ParentName, @JadName, @MelliCode, @ShomareHesab, @ShomareCard, @Desc, @Gender);
+SELECT Id, FName, LName, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, [Desc], Gender FROM Person WHERE (Id = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Mablagh", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "Mablagh", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ParentName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@JadName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "JadName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MelliCode", global::System.Data.SqlDbType.NChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MelliCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ShomareHesab", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareHesab", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ShomareCard", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Desc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Desc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Gender", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Gender", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [Person] SET [FName] = @FName, [LName] = @LName, [Mablagh] = @Mablagh, [ParentName] = @ParentName, [JadName] = @JadName, [MelliCode] = @MelliCode, [ShomareHesab] = @ShomareHesab, [ShomareCard] = @ShomareCard, [Desc] = @Desc WHERE (([Id] = @Original_Id) AND ([FName] = @Original_FName) AND ((@IsNull_LName = 1 AND [LName] IS NULL) OR ([LName] = @Original_LName)) AND ((@IsNull_Mablagh = 1 AND [Mablagh] IS NULL) OR ([Mablagh] = @Original_Mablagh)) AND ((@IsNull_ParentName = 1 AND [ParentName] IS NULL) OR ([ParentName] = @Original_ParentName)) AND ((@IsNull_JadName = 1 AND [JadName] IS NULL) OR ([JadName] = @Original_JadName)) AND ((@IsNull_MelliCode = 1 AND [MelliCode] IS NULL) OR ([MelliCode] = @Original_MelliCode)) AND ((@IsNull_ShomareHesab = 1 AND [ShomareHesab] IS NULL) OR ([ShomareHesab] = @Original_ShomareHesab)) AND ((@IsNull_ShomareCard = 1 AND [ShomareCard] IS NULL) OR ([ShomareCard] = @Original_ShomareCard)));
-SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, [Desc] FROM Person WHERE (Id = @Id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [Person] SET [FName] = @FName, [LName] = @LName, [ParentName] = @ParentName, [JadName] = @JadName, [MelliCode] = @MelliCode, [ShomareHesab] = @ShomareHesab, [ShomareCard] = @ShomareCard, [Desc] = @Desc, [Gender] = @Gender WHERE (([Id] = @Original_Id) AND ([FName] = @Original_FName) AND ([LName] = @Original_LName) AND ((@IsNull_ParentName = 1 AND [ParentName] IS NULL) OR ([ParentName] = @Original_ParentName)) AND ((@IsNull_JadName = 1 AND [JadName] IS NULL) OR ([JadName] = @Original_JadName)) AND ((@IsNull_MelliCode = 1 AND [MelliCode] IS NULL) OR ([MelliCode] = @Original_MelliCode)) AND ((@IsNull_ShomareHesab = 1 AND [ShomareHesab] IS NULL) OR ([ShomareHesab] = @Original_ShomareHesab)) AND ((@IsNull_ShomareCard = 1 AND [ShomareCard] IS NULL) OR ([ShomareCard] = @Original_ShomareCard)) AND ([Gender] = @Original_Gender));
+SELECT Id, FName, LName, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, [Desc], Gender FROM Person WHERE (Id = @Id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Mablagh", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "Mablagh", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ParentName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@JadName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "JadName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MelliCode", global::System.Data.SqlDbType.NChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MelliCode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ShomareHesab", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareHesab", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ShomareCard", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Desc", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Desc", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Gender", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Gender", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_LName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Mablagh", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Mablagh", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Mablagh", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 0, "Mablagh", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ParentName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ParentName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ParentName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_JadName", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "JadName", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -1164,6 +1128,7 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ShomareHesab", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareHesab", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_ShomareCard", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ShomareCard", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ShomareCard", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Gender", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Gender", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -1180,7 +1145,8 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT Person.*\r\nFROM     Person";
+            this._commandCollection[0].CommandText = "SELECT Id, FName, LName, ParentName, JadName, MelliCode, ShomareHesab, ShomareCar" +
+                "d, [Desc], Gender FROM Person";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1241,7 +1207,7 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_Id, string Original_FName, string Original_LName, global::System.Nullable<decimal> Original_Mablagh, string Original_ParentName, string Original_JadName, string Original_MelliCode, string Original_ShomareHesab, string Original_ShomareCard) {
+        public virtual int Delete(int Original_Id, string Original_FName, string Original_LName, string Original_ParentName, string Original_JadName, string Original_MelliCode, string Original_ShomareHesab, string Original_ShomareCard, bool Original_Gender) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_Id));
             if ((Original_FName == null)) {
                 throw new global::System.ArgumentNullException("Original_FName");
@@ -1250,61 +1216,52 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_FName));
             }
             if ((Original_LName == null)) {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("Original_LName");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_LName));
-            }
-            if ((Original_Mablagh.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((decimal)(Original_Mablagh.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[5].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_LName));
             }
             if ((Original_ParentName == null)) {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[7].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((string)(Original_ParentName));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_ParentName));
             }
             if ((Original_JadName == null)) {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[9].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((string)(Original_JadName));
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((string)(Original_JadName));
             }
             if ((Original_MelliCode == null)) {
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[11].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((string)(Original_MelliCode));
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_MelliCode));
             }
             if ((Original_ShomareHesab == null)) {
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((string)(Original_ShomareHesab));
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_ShomareHesab));
             }
             if ((Original_ShomareCard == null)) {
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((string)(Original_ShomareCard));
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[12].Value = ((string)(Original_ShomareCard));
             }
+            this.Adapter.DeleteCommand.Parameters[13].Value = ((bool)(Original_Gender));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1325,7 +1282,7 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string FName, string LName, global::System.Nullable<decimal> Mablagh, string ParentName, string JadName, string MelliCode, string ShomareHesab, string ShomareCard, string Desc) {
+        public virtual int Insert(string FName, string LName, string ParentName, string JadName, string MelliCode, string ShomareHesab, string ShomareCard, string Desc, bool Gender) {
             if ((FName == null)) {
                 throw new global::System.ArgumentNullException("FName");
             }
@@ -1333,53 +1290,48 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
                 this.Adapter.InsertCommand.Parameters[0].Value = ((string)(FName));
             }
             if ((LName == null)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("LName");
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(LName));
             }
-            if ((Mablagh.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Mablagh.Value));
-            }
-            else {
+            if ((ParentName == null)) {
                 this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((ParentName == null)) {
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(ParentName));
+            }
+            if ((JadName == null)) {
                 this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(ParentName));
+                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(JadName));
             }
-            if ((JadName == null)) {
+            if ((MelliCode == null)) {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(JadName));
+                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(MelliCode));
             }
-            if ((MelliCode == null)) {
+            if ((ShomareHesab == null)) {
                 this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(MelliCode));
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(ShomareHesab));
             }
-            if ((ShomareHesab == null)) {
+            if ((ShomareCard == null)) {
                 this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(ShomareHesab));
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(ShomareCard));
             }
-            if ((ShomareCard == null)) {
+            if ((Desc == null)) {
                 this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(ShomareCard));
+                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(Desc));
             }
-            if ((Desc == null)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(Desc));
-            }
+            this.Adapter.InsertCommand.Parameters[8].Value = ((bool)(Gender));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1403,22 +1355,22 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
         public virtual int Update(
                     string FName, 
                     string LName, 
-                    global::System.Nullable<decimal> Mablagh, 
                     string ParentName, 
                     string JadName, 
                     string MelliCode, 
                     string ShomareHesab, 
                     string ShomareCard, 
                     string Desc, 
+                    bool Gender, 
                     int Original_Id, 
                     string Original_FName, 
                     string Original_LName, 
-                    global::System.Nullable<decimal> Original_Mablagh, 
                     string Original_ParentName, 
                     string Original_JadName, 
                     string Original_MelliCode, 
                     string Original_ShomareHesab, 
                     string Original_ShomareCard, 
+                    bool Original_Gender, 
                     int Id) {
             if ((FName == null)) {
                 throw new global::System.ArgumentNullException("FName");
@@ -1427,53 +1379,48 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
                 this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(FName));
             }
             if ((LName == null)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("LName");
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(LName));
             }
-            if ((Mablagh.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Mablagh.Value));
-            }
-            else {
+            if ((ParentName == null)) {
                 this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((ParentName == null)) {
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(ParentName));
+            }
+            if ((JadName == null)) {
                 this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(ParentName));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(JadName));
             }
-            if ((JadName == null)) {
+            if ((MelliCode == null)) {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(JadName));
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(MelliCode));
             }
-            if ((MelliCode == null)) {
+            if ((ShomareHesab == null)) {
                 this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(MelliCode));
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(ShomareHesab));
             }
-            if ((ShomareHesab == null)) {
+            if ((ShomareCard == null)) {
                 this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(ShomareHesab));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(ShomareCard));
             }
-            if ((ShomareCard == null)) {
+            if ((Desc == null)) {
                 this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(ShomareCard));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Desc));
             }
-            if ((Desc == null)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Desc));
-            }
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((bool)(Gender));
             this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_Id));
             if ((Original_FName == null)) {
                 throw new global::System.ArgumentNullException("Original_FName");
@@ -1482,62 +1429,53 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
                 this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_FName));
             }
             if ((Original_LName == null)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("Original_LName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(Original_LName));
-            }
-            if ((Original_Mablagh.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(Original_Mablagh.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_LName));
             }
             if ((Original_ParentName == null)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_ParentName));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_ParentName));
             }
             if ((Original_JadName == null)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(Original_JadName));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_JadName));
             }
             if ((Original_MelliCode == null)) {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_MelliCode));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(Original_MelliCode));
             }
             if ((Original_ShomareHesab == null)) {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((string)(Original_ShomareHesab));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_ShomareHesab));
             }
             if ((Original_ShomareCard == null)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((string)(Original_ShomareCard));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((string)(Original_ShomareCard));
             }
-            this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(Id));
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((bool)(Original_Gender));
+            this.Adapter.UpdateCommand.Parameters[23].Value = ((int)(Id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1561,23 +1499,23 @@ SELECT Id, FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, 
         public virtual int Update(
                     string FName, 
                     string LName, 
-                    global::System.Nullable<decimal> Mablagh, 
                     string ParentName, 
                     string JadName, 
                     string MelliCode, 
                     string ShomareHesab, 
                     string ShomareCard, 
                     string Desc, 
+                    bool Gender, 
                     int Original_Id, 
                     string Original_FName, 
                     string Original_LName, 
-                    global::System.Nullable<decimal> Original_Mablagh, 
                     string Original_ParentName, 
                     string Original_JadName, 
                     string Original_MelliCode, 
                     string Original_ShomareHesab, 
-                    string Original_ShomareCard) {
-            return this.Update(FName, LName, Mablagh, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, Desc, Original_Id, Original_FName, Original_LName, Original_Mablagh, Original_ParentName, Original_JadName, Original_MelliCode, Original_ShomareHesab, Original_ShomareCard, Original_Id);
+                    string Original_ShomareCard, 
+                    bool Original_Gender) {
+            return this.Update(FName, LName, ParentName, JadName, MelliCode, ShomareHesab, ShomareCard, Desc, Gender, Original_Id, Original_FName, Original_LName, Original_ParentName, Original_JadName, Original_MelliCode, Original_ShomareHesab, Original_ShomareCard, Original_Gender, Original_Id);
         }
     }
     
