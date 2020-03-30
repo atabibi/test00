@@ -1,8 +1,11 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,20 +180,122 @@ namespace TbPeopleList
 
         private void LoadFromCSVFile()
         {
+            string fileName = null;
             using (var dlg = new OpenFileDialog() {
                 Filter = "*.csv|*.csv"
             })
-            {
+            {                
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    LoadFromCSVFile(dlg.FileName);
+                    fileName = dlg.FileName;
                 }
+            }
+
+            if (fileName != null)
+            {
+                LoadFromCSVFile(fileName);
             }
         }
 
         private void LoadFromCSVFile(string fileName)
         {
             MessageBox.Show($"Save as {fileName}");
+
+            using (var reader = new StreamReader(fileName))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                // Do any configuration to `CsvReader` before creating CsvDataReader.
+                using (var dr = new CsvDataReader(csv))
+                {
+                    var dt = new DataTable();
+                    dt.Load(dr);
+
+                    DeletePrevData();
+                    ImportToPersonTable(dt);
+                }
+            }
+        }
+
+        private void DeletePrevData()
+        {
+            
+            foreach (DataRow r in tbDbDataSet.Person.Rows)
+            {
+                r.Delete();
+            }
+
+            personTableAdapter.Update(tbDbDataSet.Person);
+        }
+
+        private void ImportToPersonTable(DataTable dt)
+        {
+            
+            for (int k = 0; k < dt.Rows.Count; k++)
+            {
+                var r = dt.Rows[k];
+
+                var fullName = r[1].ToString().Trim();
+                string fname = "نامشخص";
+                string lname = "نامشخص";
+                if (fullName.Length > 0)
+                {
+                    var fl = fullName.Split(' ');
+                    if (fl.Length == 1)
+                        fname = fl[0];
+                    else if(fl.Length == 2)
+                    {
+                        fname = fl[0];
+                        lname = fl[1];
+                    }
+                    else if (fl.Length > 2)
+                    {
+                        fname = fl[0];
+                        lname = string.Join(" ", fl.Skip(1));
+                    }
+                };
+
+                var parentName = r[5].ToString().Trim();
+                var jadName = r[6].ToString().Trim();
+                var melliCode = r[4].ToString().Trim();
+                var shomareHesab = r[7].ToString().Trim();
+                var shomareCard = r[8].ToString().Trim();
+                var desc = r[9].ToString().Trim();
+
+                if (shomareHesab.Length > 50)
+                {
+                    // یعنی احتمالا توضیحات را امیر بجای شماره حساب نوشته
+                    desc += shomareHesab;
+                    shomareHesab = "";
+                }
+
+                if (shomareCard.Length > 50)
+                {
+                    desc += shomareCard;
+                    shomareCard = "";
+                }
+
+                bool gender = r[2].ToString().Trim() == "1";
+                personTableAdapter.Insert(
+                        fname,
+                        lname,
+                        parentName, // پدر یا مادر
+                        jadName, // جد یا جده
+                        melliCode.Length > 10 ? melliCode.Substring(0,10) : melliCode, // کد ملی
+                        shomareHesab, // ش حساب
+                        shomareCard, // ش کارت
+                        desc, // توضیحات
+                        gender
+                    );
+
+            }
+
+
+            FillData();
+        }
+
+        private void btnExportToCSV_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

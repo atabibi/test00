@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.personBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tbDbDataSet = new TbPeopleList.TbDbDataSet();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
@@ -45,10 +47,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSaveChanges = new System.Windows.Forms.ToolStripButton();
             this.btnCancelChanges = new System.Windows.Forms.ToolStripButton();
+            this.btnLoadFromCSV = new System.Windows.Forms.ToolStripButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.personBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tbDbDataSet = new TbPeopleList.TbDbDataSet();
-            this.personTableAdapter = new TbPeopleList.TbDbDataSetTableAdapters.PersonTableAdapter();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,12 +59,14 @@
             this.shomareHesabDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shomareCardDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnLoadFromCSV = new System.Windows.Forms.ToolStripButton();
+            this.personTableAdapter = new TbPeopleList.TbDbDataSetTableAdapters.PersonTableAdapter();
+            this.btnExportToCSV = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.personBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDbDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // bindingNavigator1
@@ -90,7 +92,9 @@
             this.toolStripSeparator1,
             this.btnSaveChanges,
             this.btnCancelChanges,
-            this.btnLoadFromCSV});
+            this.btnLoadFromCSV,
+            this.toolStripSeparator2,
+            this.btnExportToCSV});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -110,6 +114,17 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(36, 36);
             this.bindingNavigatorAddNewItem.Text = "افزودن سطر جدید";
+            // 
+            // personBindingSource
+            // 
+            this.personBindingSource.DataMember = "Person";
+            this.personBindingSource.DataSource = this.tbDbDataSet;
+            this.personBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.personBindingSource_DataError);
+            // 
+            // tbDbDataSet
+            // 
+            this.tbDbDataSet.DataSetName = "TbDbDataSet";
+            this.tbDbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // bindingNavigatorCountItem
             // 
@@ -213,6 +228,17 @@
             this.btnCancelChanges.Text = "لغو تغییرات";
             this.btnCancelChanges.Click += new System.EventHandler(this.btnCancelChanges_Click);
             // 
+            // btnLoadFromCSV
+            // 
+            this.btnLoadFromCSV.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnLoadFromCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLoadFromCSV.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadFromCSV.Image")));
+            this.btnLoadFromCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoadFromCSV.Name = "btnLoadFromCSV";
+            this.btnLoadFromCSV.Size = new System.Drawing.Size(36, 36);
+            this.btnLoadFromCSV.Text = "بارگذاری از اکسل ";
+            this.btnLoadFromCSV.Click += new System.EventHandler(this.btnLoadFromCSV_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AutoGenerateColumns = false;
@@ -241,21 +267,6 @@
             this.dataGridView1.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_DefaultValuesNeeded);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
             this.dataGridView1.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_RowValidating);
-            // 
-            // personBindingSource
-            // 
-            this.personBindingSource.DataMember = "Person";
-            this.personBindingSource.DataSource = this.tbDbDataSet;
-            this.personBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.personBindingSource_DataError);
-            // 
-            // tbDbDataSet
-            // 
-            this.tbDbDataSet.DataSetName = "TbDbDataSet";
-            this.tbDbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // personTableAdapter
-            // 
-            this.personTableAdapter.ClearBeforeFill = true;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -339,16 +350,24 @@
             this.descDataGridViewTextBoxColumn.Name = "descDataGridViewTextBoxColumn";
             this.descDataGridViewTextBoxColumn.Width = 125;
             // 
-            // btnLoadFromCSV
+            // personTableAdapter
             // 
-            this.btnLoadFromCSV.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnLoadFromCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoadFromCSV.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadFromCSV.Image")));
-            this.btnLoadFromCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLoadFromCSV.Name = "btnLoadFromCSV";
-            this.btnLoadFromCSV.Size = new System.Drawing.Size(36, 36);
-            this.btnLoadFromCSV.Text = "بارگذاری از اکسل ";
-            this.btnLoadFromCSV.Click += new System.EventHandler(this.btnLoadFromCSV_Click);
+            this.personTableAdapter.ClearBeforeFill = true;
+            // 
+            // btnExportToCSV
+            // 
+            this.btnExportToCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExportToCSV.Image = ((System.Drawing.Image)(resources.GetObject("btnExportToCSV.Image")));
+            this.btnExportToCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExportToCSV.Name = "btnExportToCSV";
+            this.btnExportToCSV.Size = new System.Drawing.Size(36, 36);
+            this.btnExportToCSV.Text = "ذخیره به صورت فایل اکسل";
+            this.btnExportToCSV.Click += new System.EventHandler(this.btnExportToCSV_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
             // 
             // FrmMain
             // 
@@ -367,9 +386,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.personBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbDbDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -406,6 +425,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn shomareCardDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripButton btnLoadFromCSV;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton btnExportToCSV;
     }
 }
 
