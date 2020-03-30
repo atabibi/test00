@@ -163,5 +163,34 @@ namespace TbPeopleList
             e.Row.Cells["FName"].Value = "نامشخص";
             e.Row.Cells["LName"].Value = "نامشخص";
         }
+
+        private void btnLoadFromCSV_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("با اینکار همه ی اطلاعات موجود در بانک اطلاعاتی حذف خواهد شد. آیا می خواهید ادامه دهید؟", "اخطار", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            LoadFromCSVFile();
+
+        }
+
+        private void LoadFromCSVFile()
+        {
+            using (var dlg = new OpenFileDialog() {
+                Filter = "*.csv|*.csv"
+            })
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    LoadFromCSVFile(dlg.FileName);
+                }
+            }
+        }
+
+        private void LoadFromCSVFile(string fileName)
+        {
+            MessageBox.Show($"Save as {fileName}");
+        }
     }
 }

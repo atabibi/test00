@@ -59,6 +59,7 @@
             this.shomareHesabDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shomareCardDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnLoadFromCSV = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -88,7 +89,8 @@
             this.bindingNavigatorDeleteItem,
             this.toolStripSeparator1,
             this.btnSaveChanges,
-            this.btnCancelChanges});
+            this.btnCancelChanges,
+            this.btnLoadFromCSV});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -337,6 +339,17 @@
             this.descDataGridViewTextBoxColumn.Name = "descDataGridViewTextBoxColumn";
             this.descDataGridViewTextBoxColumn.Width = 125;
             // 
+            // btnLoadFromCSV
+            // 
+            this.btnLoadFromCSV.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnLoadFromCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLoadFromCSV.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadFromCSV.Image")));
+            this.btnLoadFromCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoadFromCSV.Name = "btnLoadFromCSV";
+            this.btnLoadFromCSV.Size = new System.Drawing.Size(36, 36);
+            this.btnLoadFromCSV.Text = "بارگذاری از اکسل ";
+            this.btnLoadFromCSV.Click += new System.EventHandler(this.btnLoadFromCSV_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -392,6 +405,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn shomareHesabDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shomareCardDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripButton btnLoadFromCSV;
     }
 }
 
