@@ -153,10 +153,10 @@ namespace TbPeopleList
             }
             else
             {
-                if (e.RowIndex == 0)
-                    return;
-                if (e.ColumnIndex !=  -1)
-                    MessageBox.Show($"خطا در ستون {dataGridView1.Columns[e.ColumnIndex].HeaderText} : { e.Exception.Message}" );
+                //if (e.RowIndex == 0)
+                //    return;
+                //if (e.ColumnIndex !=  -1)
+                //    MessageBox.Show($"خطا در ستون {dataGridView1.Columns[e.ColumnIndex].HeaderText} : { e.Exception.Message}" );
             }
            
         }
@@ -199,7 +199,7 @@ namespace TbPeopleList
 
         private void LoadFromCSVFile(string fileName)
         {
-            MessageBox.Show($"Save as {fileName}");
+            // MessageBox.Show($"Save as {fileName}");
 
             using (var reader = new StreamReader(fileName))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -311,8 +311,18 @@ namespace TbPeopleList
                 fileName = dlg.FileName;
             }
 
-            decimal mablaghForMale = 3000000;
+            string strMablaghForMale="";            
+            if (TbDialogs.InputBox("میزان سهم", "مقدار سهم هر مرد را وارد کنید:", ref strMablaghForMale) != DialogResult.OK)
+            {
+                return;
+            }
 
+            decimal mablaghForMale =0;
+            if (decimal.TryParse(strMablaghForMale, out mablaghForMale) == false)
+            {
+                MessageBox.Show("مقدار وارد شده یک عدد معتبر نیست");
+                return;
+            }
 
             List<PersonForExcel> people = new List<PersonForExcel>(500);
             try
