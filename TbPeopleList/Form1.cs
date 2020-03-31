@@ -295,7 +295,68 @@ namespace TbPeopleList
 
         private void btnExportToCSV_Click(object sender, EventArgs e)
         {
+            string fileName = "";
+            using (SaveFileDialog dlg = new SaveFileDialog()
+            {
+                DefaultExt = "csv",
+                Filter = "*.csv|*.csv",
+                AddExtension = true,
+                Title = "نام و محل ذخیره فایل را مشخص کنید"
+            })
+            {
+                if (dlg.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                fileName = dlg.FileName;
+            }
 
+            decimal mablaghForMale = 3000000;
+
+
+            List<PersonForExcel> people = new List<PersonForExcel>(500);
+            try
+            {
+                int n = 0;
+                foreach (TbDbDataSet.PersonRow p in tbDbDataSet.Person.Rows)
+                {
+                    n++;
+                    people.Add(new PersonForExcel
+                    {
+                        CodeMelli = p.MelliCode.Trim(),
+                        Desc = p.Desc.Trim(),
+                        FullName = $"{p.FName} {p.LName}",
+                        Gender = p.Gender ? "مذکر" : "مونث",
+                        Id = n,
+                        Jad = p.JadName,
+                        Mablagh = p.Gender ? mablaghForMale : mablaghForMale / 2,
+                        Parent = p.ParentName,
+                        ShomareCard = p.ShomareCard,
+                        ShomareHesab = p.ShomareHesab
+                    });
+                }
+
+                SaveCSVFile(people, fileName);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show($"خطا در ذخیره فایل : {err.Message}");
+            }
+
+            MessageBox.Show($"{fileName} با موفقیت ذخیره شد");
+           
+        }
+
+        private void SaveCSVFile(List<PersonForExcel> people, string fileName)
+        {
+            
+
+            using (var writer = new StreamWriter(fileName,false, Encoding.UTF8))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(people);
+            }
+            
         }
     }
 }
