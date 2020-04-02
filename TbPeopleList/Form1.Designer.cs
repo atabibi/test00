@@ -48,6 +48,11 @@
             this.btnSaveChanges = new System.Windows.Forms.ToolStripButton();
             this.btnCancelChanges = new System.Windows.Forms.ToolStripButton();
             this.btnLoadFromCSV = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnReport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnBackupDB = new System.Windows.Forms.ToolStripButton();
+            this.BtnResoreDB = new System.Windows.Forms.ToolStripButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,8 +65,6 @@
             this.shomareCardDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.personTableAdapter = new TbPeopleList.TbDbDataSetTableAdapters.PersonTableAdapter();
-            this.btnExportToCSV = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.personBindingSource)).BeginInit();
@@ -94,7 +97,10 @@
             this.btnCancelChanges,
             this.btnLoadFromCSV,
             this.toolStripSeparator2,
-            this.btnExportToCSV});
+            this.BtnReport,
+            this.toolStripSeparator3,
+            this.BtnBackupDB,
+            this.BtnResoreDB});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -237,7 +243,50 @@
             this.btnLoadFromCSV.Name = "btnLoadFromCSV";
             this.btnLoadFromCSV.Size = new System.Drawing.Size(36, 36);
             this.btnLoadFromCSV.Text = "بارگذاری از اکسل ";
+            this.btnLoadFromCSV.Visible = false;
             this.btnLoadFromCSV.Click += new System.EventHandler(this.btnLoadFromCSV_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
+            // 
+            // BtnReport
+            // 
+            this.BtnReport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnReport.Image = ((System.Drawing.Image)(resources.GetObject("BtnReport.Image")));
+            this.BtnReport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnReport.Name = "BtnReport";
+            this.BtnReport.Size = new System.Drawing.Size(36, 36);
+            this.BtnReport.Text = "ذخیره به صورت فایل اکسل";
+            this.BtnReport.Click += new System.EventHandler(this.BtnReport_Clicked);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
+            // 
+            // BtnBackupDB
+            // 
+            this.BtnBackupDB.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnBackupDB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnBackupDB.Image = ((System.Drawing.Image)(resources.GetObject("BtnBackupDB.Image")));
+            this.BtnBackupDB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnBackupDB.Name = "BtnBackupDB";
+            this.BtnBackupDB.Size = new System.Drawing.Size(36, 36);
+            this.BtnBackupDB.Text = "ایجاد فایل پشتیبان بانک اطلاعاتی";
+            this.BtnBackupDB.Click += new System.EventHandler(this.BtnBackupDB_Click);
+            // 
+            // BtnResoreDB
+            // 
+            this.BtnResoreDB.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnResoreDB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnResoreDB.Image = ((System.Drawing.Image)(resources.GetObject("BtnResoreDB.Image")));
+            this.BtnResoreDB.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BtnResoreDB.Name = "BtnResoreDB";
+            this.BtnResoreDB.Size = new System.Drawing.Size(36, 36);
+            this.BtnResoreDB.Text = "بازیابی بانک اطلاعاتی از فایل پشتیبان";
+            this.BtnResoreDB.Click += new System.EventHandler(this.BtnResoreDB_Click);
             // 
             // dataGridView1
             // 
@@ -354,21 +403,6 @@
             // 
             this.personTableAdapter.ClearBeforeFill = true;
             // 
-            // btnExportToCSV
-            // 
-            this.btnExportToCSV.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExportToCSV.Image = ((System.Drawing.Image)(resources.GetObject("btnExportToCSV.Image")));
-            this.btnExportToCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExportToCSV.Name = "btnExportToCSV";
-            this.btnExportToCSV.Size = new System.Drawing.Size(36, 36);
-            this.btnExportToCSV.Text = "ذخیره به صورت فایل اکسل";
-            this.btnExportToCSV.Click += new System.EventHandler(this.btnExportToCSV_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -377,6 +411,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.bindingNavigator1);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
@@ -426,7 +461,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn descDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripButton btnLoadFromCSV;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton btnExportToCSV;
+        private System.Windows.Forms.ToolStripButton BtnReport;
+        private System.Windows.Forms.ToolStripButton BtnBackupDB;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton BtnResoreDB;
     }
 }
 

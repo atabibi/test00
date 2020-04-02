@@ -1,8 +1,11 @@
 ﻿using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -23,10 +26,10 @@ namespace TbPeopleList
 
         private void DataGridChangeTheme()
         {
-            dataGridView1.RowsDefaultCellStyle.BackColor = Color.FromArgb(128,128,192);
+            dataGridView1.RowsDefaultCellStyle.BackColor = Color.FromArgb(128, 128, 192);
             dataGridView1.RowsDefaultCellStyle.ForeColor = Color.White;
 
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(211,211,233);
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(211, 211, 233);
             dataGridView1.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
             // dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.None;
 
@@ -37,7 +40,7 @@ namespace TbPeopleList
         private void FrmMain_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'tbDbDataSet.Person' table. You can move, or remove it, as needed.
-           FillData();
+            FillData();
 
         }
 
@@ -74,7 +77,7 @@ namespace TbPeopleList
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
-          
+
         }
 
         private void btnCancelChanges_Click(object sender, EventArgs e)
@@ -132,12 +135,12 @@ namespace TbPeopleList
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            
+
         }
 
         private void dataGridView1_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
         {
-            
+
         }
 
         private void personBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
@@ -158,7 +161,7 @@ namespace TbPeopleList
                 //if (e.ColumnIndex !=  -1)
                 //    MessageBox.Show($"خطا در ستون {dataGridView1.Columns[e.ColumnIndex].HeaderText} : { e.Exception.Message}" );
             }
-           
+
         }
 
         private void dataGridView1_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
@@ -181,10 +184,11 @@ namespace TbPeopleList
         private void LoadFromCSVFile()
         {
             string fileName = null;
-            using (var dlg = new OpenFileDialog() {
+            using (var dlg = new OpenFileDialog()
+            {
                 Filter = "*.csv|*.csv"
             })
-            {                
+            {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     fileName = dlg.FileName;
@@ -218,7 +222,7 @@ namespace TbPeopleList
 
         private void DeletePrevData()
         {
-            
+
             foreach (DataRow r in tbDbDataSet.Person.Rows)
             {
                 r.Delete();
@@ -229,10 +233,23 @@ namespace TbPeopleList
 
         private void ImportToPersonTable(DataTable dt)
         {
-            
+
             for (int k = 0; k < dt.Rows.Count; k++)
             {
                 var r = dt.Rows[k];
+
+                /*
+                 ستون 0: ردیف که نمی خوانیم
+                 ستون 1: نام  نام خانوادگی
+                 ستون 2: جنسیت: یک مذکر و صفر مونث
+                 ستون 3: مبلغ که نمی خوانیم
+                 ستون 4: کد ملی
+                 ستون 5: پدر یا مادر
+                 ستون 6: جد یا جده
+                 ستون 7: شماره حساب
+                 ستون 8: شماره کارت
+                 ستون 9: توضیحات
+                 */
 
                 var fullName = r[1].ToString().Trim();
                 string fname = "نامشخص";
@@ -242,7 +259,7 @@ namespace TbPeopleList
                     var fl = fullName.Split(' ');
                     if (fl.Length == 1)
                         fname = fl[0];
-                    else if(fl.Length == 2)
+                    else if (fl.Length == 2)
                     {
                         fname = fl[0];
                         lname = fl[1];
@@ -280,7 +297,7 @@ namespace TbPeopleList
                         lname,
                         parentName, // پدر یا مادر
                         jadName, // جد یا جده
-                        melliCode.Length > 10 ? melliCode.Substring(0,10) : melliCode, // کد ملی
+                        melliCode.Length > 10 ? melliCode.Substring(0, 10) : melliCode, // کد ملی
                         shomareHesab, // ش حساب
                         shomareCard, // ش کارت
                         desc, // توضیحات
@@ -293,37 +310,9 @@ namespace TbPeopleList
             FillData();
         }
 
-        private void btnExportToCSV_Click(object sender, EventArgs e)
+
+        private void ReportToJson(string fileName, decimal mablaghForMale)
         {
-            string fileName = "";
-            using (SaveFileDialog dlg = new SaveFileDialog()
-            {
-                DefaultExt = "csv",
-                Filter = "*.csv|*.csv",
-                AddExtension = true,
-                Title = "نام و محل ذخیره فایل را مشخص کنید"
-            })
-            {
-                if (dlg.ShowDialog() != DialogResult.OK)
-                {
-                    return;
-                }
-                fileName = dlg.FileName;
-            }
-
-            string strMablaghForMale="";            
-            if (TbDialogs.InputBox("میزان سهم", "مقدار سهم هر مرد را وارد کنید:", ref strMablaghForMale) != DialogResult.OK)
-            {
-                return;
-            }
-
-            decimal mablaghForMale =0;
-            if (decimal.TryParse(strMablaghForMale, out mablaghForMale) == false)
-            {
-                MessageBox.Show("مقدار وارد شده یک عدد معتبر نیست");
-                return;
-            }
-
             List<PersonForExcel> people = new List<PersonForExcel>(500);
             try
             {
@@ -346,27 +335,287 @@ namespace TbPeopleList
                     });
                 }
 
-                SaveCSVFile(people, fileName);
+                var json = JsonConvert.SerializeObject(people, Formatting.Indented);
+
+                using (var stream = new StreamWriter(fileName, false))
+                {
+                    stream.Write(json);
+                    stream.Close();
+                }
+
+                MessageBox.Show($"{fileName} با موفقیت ذخیره شد");
             }
             catch (Exception err)
             {
                 MessageBox.Show($"خطا در ذخیره فایل : {err.Message}");
             }
 
-            MessageBox.Show($"{fileName} با موفقیت ذخیره شد");
-           
         }
 
-        private void SaveCSVFile(List<PersonForExcel> people, string fileName)
+
+        private void BtnReport_Clicked(object sender, EventArgs e)
         {
-            
-
-            using (var writer = new StreamWriter(fileName,false, Encoding.UTF8))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            string fileName = "";
+            using (SaveFileDialog dlg = new SaveFileDialog()
             {
-                csv.WriteRecords(people);
+                DefaultExt = "csv",
+                Filter = "*.csv|*.csv",
+                AddExtension = true,
+                Title = "نام و محل ذخیره فایل را مشخص کنید"
+            })
+            {
+                if (dlg.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                fileName = dlg.FileName;
             }
-            
+
+            string strMablaghForMale = "";
+            if (TbDialogs.InputBox("میزان سهم", "مقدار سهم هر مرد را وارد کنید:", ref strMablaghForMale) != DialogResult.OK)
+            {
+                return;
+            }
+
+            decimal mablaghForMale = 0;
+            if (decimal.TryParse(strMablaghForMale, out mablaghForMale) == false)
+            {
+                MessageBox.Show("مقدار وارد شده یک عدد معتبر نیست");
+                return;
+            }
+
+            ReportToJson(fileName, mablaghForMale);
         }
+
+        //private void btnExportToCSV_Click(object sender, EventArgs e)
+        //{
+        //    string fileName = "";
+        //    using (SaveFileDialog dlg = new SaveFileDialog()
+        //    {
+        //        DefaultExt = "csv",
+        //        Filter = "*.csv|*.csv",
+        //        AddExtension = true,
+        //        Title = "نام و محل ذخیره فایل را مشخص کنید"
+        //    })
+        //    {
+        //        if (dlg.ShowDialog() != DialogResult.OK)
+        //        {
+        //            return;
+        //        }
+        //        fileName = dlg.FileName;
+        //    }
+
+        //    string strMablaghForMale = "";
+        //    if (TbDialogs.InputBox("میزان سهم", "مقدار سهم هر مرد را وارد کنید:", ref strMablaghForMale) != DialogResult.OK)
+        //    {
+        //        return;
+        //    }
+
+        //    decimal mablaghForMale = 0;
+        //    if (decimal.TryParse(strMablaghForMale, out mablaghForMale) == false)
+        //    {
+        //        MessageBox.Show("مقدار وارد شده یک عدد معتبر نیست");
+        //        return;
+        //    }
+
+        //    List<PersonForExcel> people = new List<PersonForExcel>(500);
+        //    try
+        //    {
+        //        int n = 0;
+        //        foreach (TbDbDataSet.PersonRow p in tbDbDataSet.Person.Rows)
+        //        {
+        //            n++;
+        //            people.Add(new PersonForExcel
+        //            {
+        //                CodeMelli = p.MelliCode.Trim(),
+        //                Desc = p.Desc.Trim(),
+        //                FullName = $"{p.FName} {p.LName}",
+        //                Gender = p.Gender ? "مذکر" : "مونث",
+        //                Id = n,
+        //                Jad = p.JadName,
+        //                Mablagh = p.Gender ? mablaghForMale : mablaghForMale / 2,
+        //                Parent = p.ParentName,
+        //                ShomareCard = p.ShomareCard,
+        //                ShomareHesab = p.ShomareHesab
+        //            });
+        //        }
+
+        //        SaveCSVFile(people, fileName);
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        MessageBox.Show($"خطا در ذخیره فایل : {err.Message}");
+        //    }
+
+        //    MessageBox.Show($"{fileName} با موفقیت ذخیره شد");
+
+        //}
+
+        //private void SaveCSVFile(List<PersonForExcel> people, string fileName)
+        //{
+
+
+        //    using (var writer = new StreamWriter(fileName, false, Encoding.UTF8))
+        //    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        //    {
+        //        csv.WriteRecords(people);
+        //    }
+
+        //}
+
+        //private void BackupDB()
+        //{
+        //    try
+        //    {
+        //        SaveFileDialog sd = new SaveFileDialog();
+        //        sd.Filter = "SQL Server database backup files|*.bak";
+        //        sd.Title = "Create Database Backup";
+
+        //        if (sd.ShowDialog() == DialogResult.OK)
+        //        {
+        //            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["TbPeopleList.Properties.Settings.TbDbConnectionString"].ConnectionString))
+        //            {
+        //                string sqlStmt = string.Format("backup database [" + System.Windows.Forms.Application.StartupPath + "\\TbDb.mdf] to disk='{0}'", sd.FileName);
+        //                using (SqlCommand bu2 = new SqlCommand(sqlStmt, conn))
+        //                {
+        //                    conn.Open();
+        //                    bu2.ExecuteNonQuery();
+        //                    conn.Close();
+
+        //                    MessageBox.Show("Backup Created Sucessfully");
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        MessageBox.Show("Backup Not Created");
+        //    }
+        //}
+
+        private void RestoreDbFromJsonFile(string fileName)
+        {
+            string jsonText = "";
+            using (StreamReader streamReader = new StreamReader(fileName))
+            {
+                jsonText = streamReader.ReadToEnd();
+            }
+
+            var people = JsonConvert.DeserializeObject<List<PersonForJson>>(jsonText);
+
+            DeletePrevData();
+
+            foreach (var p in people)
+            {
+                personTableAdapter.Insert(
+                        FName: p.FName,
+                        LName: p.LName,
+                        ParentName: p.ParentName,
+                        JadName: p.JadName,
+                        MelliCode: p.MelliCode,
+                        ShomareHesab: p.ShomareHesab,
+                        ShomareCard: p.ShomareCard,
+                        Desc: p.Desc,
+                        Gender: p.Gender
+                    );
+            }
+
+
+            FillData();
+        }
+
+        private void BackUpDbAsJsonFile(string fileName)
+        {
+            List<PersonForJson> people = new List<PersonForJson>(500);
+
+            foreach (TbDbDataSet.PersonRow p in tbDbDataSet.Person.Rows)
+            {
+                people.Add(
+                    new PersonForJson
+                    {
+                        Desc = p.Desc.Trim(),
+                        FName = p.FName.Trim(),
+                        LName = p.LName.Trim(),
+                        Gender = p.Gender,
+                        JadName = p.JadName.Trim(),
+                        MelliCode = p.MelliCode.Trim(),
+                        ParentName = p.ParentName.Trim(),
+                        ShomareCard = p.ShomareCard.Trim(),
+                        ShomareHesab = p.ShomareHesab.Trim()
+                    }
+                   );
+            }
+
+            var json = JsonConvert.SerializeObject(people,Formatting.Indented);
+            // Console.WriteLine(json);
+
+            using (var stream = new StreamWriter(fileName, false))
+            {
+                stream.Write(json);
+                stream.Close();
+            }
+        }
+
+
+        private void BtnBackupDB_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var saveDlg = new SaveFileDialog())
+                {
+                    saveDlg.Filter = "*.json|*.json";
+                    saveDlg.Title = "نام فایل پشتیبان را وارد کنید";
+                    saveDlg.DefaultExt = "*.json";
+                    saveDlg.AddExtension = true;
+
+                    if (saveDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        BackUpDbAsJsonFile(saveDlg.FileName);
+                        MessageBox.Show("فایل پشتیبان با موفقیت ذخیره شد");
+                    }
+                }
+
+            }
+            catch (Exception err)
+            {
+
+                MessageBox.Show(err.Message);
+            }
+        }
+
+
+        private void BtnResoreDB_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("با اینکار همه ی اطلاعات موجود در بانک اطلاعاتی حذف خواهد شد. آیا می خواهید ادامه دهید؟", "اخطار", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            try
+            {
+                using (var openDlg = new OpenFileDialog()
+                    {
+                        DefaultExt = "*.json",
+                        Filter = "*.json|*.json",
+                        Title = "فایل پشتیبان را انتخاب کنید"
+                    }
+                )
+                {
+                    if (openDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        RestoreDbFromJsonFile(openDlg.FileName);
+                        MessageBox.Show("اطلاعات با موفقیت بازیابی شد");
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+
+            // RestoreBackupDB();
+            //FoundDbs();
+        }
+
     }
 }
