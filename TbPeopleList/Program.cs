@@ -15,20 +15,28 @@ namespace TbPeopleList
         [STAThread]
         static void Main()
         {
-            var culture = new CultureInfo("fa-IR");
+            try
+            {
+            
+                var culture = new CultureInfo("fa-IR");
 
-            // this may fail sometimes: (see Drachenkatze's comment below)
-            // var culture = new CultureInfo("en-US");
+                // this may fail sometimes: (see Drachenkatze's comment below)
+                // var culture = new CultureInfo("en-US");
 
-            //Culture for any thread
-            CultureInfo.DefaultThreadCurrentCulture = culture;
+                //Culture for any thread
+                CultureInfo.DefaultThreadCurrentCulture = culture;
 
-            //Culture for UI in any thread
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+                //Culture for UI in any thread
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FrmMain());
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString());
+            }
         }
     }
 }

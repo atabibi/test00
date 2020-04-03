@@ -65,6 +65,7 @@
             this.shomareCardDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.descDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.personTableAdapter = new TbPeopleList.TbDbDataSetTableAdapters.PersonTableAdapter();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.personBindingSource)).BeginInit();
@@ -120,16 +121,20 @@
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(36, 36);
             this.bindingNavigatorAddNewItem.Text = "افزودن سطر جدید";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
             // personBindingSource
             // 
             this.personBindingSource.DataMember = "Person";
             this.personBindingSource.DataSource = this.tbDbDataSet;
+            this.personBindingSource.AddingNew += new System.ComponentModel.AddingNewEventHandler(this.personBindingSource_AddingNew);
             this.personBindingSource.DataError += new System.Windows.Forms.BindingManagerDataErrorEventHandler(this.personBindingSource_DataError);
+            this.personBindingSource.PositionChanged += new System.EventHandler(this.personBindingSource_PositionChanged);
             // 
             // tbDbDataSet
             // 
             this.tbDbDataSet.DataSetName = "TbDbDataSet";
+            this.tbDbDataSet.EnforceConstraints = false;
             this.tbDbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // bindingNavigatorCountItem
@@ -290,6 +295,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -309,7 +315,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(1158, 556);
+            this.dataGridView1.Size = new System.Drawing.Size(1158, 533);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
@@ -403,12 +409,21 @@
             // 
             this.personTableAdapter.ClearBeforeFill = true;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar1.Location = new System.Drawing.Point(0, 572);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(1158, 23);
+            this.progressBar1.TabIndex = 4;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1158, 595);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.bindingNavigator1);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -416,6 +431,7 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
             this.Text = "لیست اعضای موقوفه";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
@@ -449,6 +465,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnCancelChanges;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ToolStripButton btnLoadFromCSV;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton BtnReport;
+        private System.Windows.Forms.ToolStripButton BtnBackupDB;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton BtnResoreDB;
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FName;
         private System.Windows.Forms.DataGridViewTextBoxColumn LName;
@@ -459,12 +481,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn shomareHesabDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn shomareCardDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descDataGridViewTextBoxColumn;
-        private System.Windows.Forms.ToolStripButton btnLoadFromCSV;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton BtnReport;
-        private System.Windows.Forms.ToolStripButton BtnBackupDB;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton BtnResoreDB;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

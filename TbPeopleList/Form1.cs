@@ -61,6 +61,7 @@ namespace TbPeopleList
                 _ = dataGridView1.EndEdit();
                 personBindingSource.EndEdit();
                 int n = personTableAdapter.Update(personBindingSource.DataSource as TbDbDataSet);
+                bindingNavigatorAddNewItem.Enabled = true;
                 if (n == 0)
                 {
                     MessageBox.Show("هیچ تغییری برای ذخیره کردن یافت نشد.");
@@ -70,9 +71,16 @@ namespace TbPeopleList
                     MessageBox.Show($"{n} تغییر در بانک اطلاعاتی ایجاد شد");
                 }
             }
+
             catch (Exception err)
             {
-                MessageBox.Show("خطا در ذخیره سازی تغییرات: " + err.Message,
+                if (err.Message.Contains("FName") || err.Message.Contains("LName"))
+                {
+                    MessageBox.Show("نام و نام خانوادگی نباید خالی باشند" + ":  " + $"سطر {personBindingSource.Position+1}", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                MessageBox.Show("خطا در ذخیره سازی تغییرات: سطر شماره " + (personBindingSource.Position+1) + " : "  + err.Message,
                                 "خطا",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
@@ -222,13 +230,16 @@ namespace TbPeopleList
 
         private void DeletePrevData()
         {
-
+            progressBar1.Maximum = tbDbDataSet.Person.Rows.Count;
+            progressBar1.Value = 0;
             foreach (DataRow r in tbDbDataSet.Person.Rows)
             {
                 r.Delete();
+                progressBar1.Value++;
             }
 
             personTableAdapter.Update(tbDbDataSet.Person);
+            progressBar1.Value = 0;
         }
 
         private void ImportToPersonTable(DataTable dt)
@@ -322,17 +333,17 @@ namespace TbPeopleList
                     n++;
                     people.Add(new PersonForExcel
                     {
-                        CodeMelli = p.MelliCode.Trim(),
-                        Desc = p.Desc.Trim(),
-                        FullName = $"{p.FName} {p.LName}",
-                        Gender = p.Gender ? "مذکر" : "مونث",
+                        CodeMelli = p.IsMelliCodeNull() ? "-" :  p.MelliCode.Trim(),
+                        Desc = p.IsDescNull() ? "-" : p.Desc.Trim(),
+                        FullName =  $"{p.FName} {p.LName}",
+                        Gender =  p.Gender ? "مذکر" : "مونث",
                         Id = n,
-                        Jad = p.JadName,
-                        Mablagh = p.Gender ? mablaghForMale : mablaghForMale / 2,
-                        Parent = p.ParentName,
-                        ShomareCard = p.ShomareCard,
-                        ShomareHesab = p.ShomareHesab
-                    });
+                        Jad = p.IsJadNameNull() ? "-" : p.JadName,
+                        Mablagh =  p.Gender ? mablaghForMale : mablaghForMale / 2,
+                        Parent = p.IsParentNameNull() ? "-" : p.ParentName,
+                        ShomareCard = p.IsShomareCardNull() ? "-" : p.ShomareCard,
+                        ShomareHesab = p.IsShomareHesabNull() ? "-" : p.ShomareHesab
+                    }); 
                 }
 
                 var json = JsonConvert.SerializeObject(people, Formatting.Indented);
@@ -505,6 +516,8 @@ namespace TbPeopleList
 
             DeletePrevData();
 
+            progressBar1.Maximum = people.Count;
+            progressBar1.Value = 0;
             foreach (var p in people)
             {
                 personTableAdapter.Insert(
@@ -518,16 +531,19 @@ namespace TbPeopleList
                         Desc: p.Desc,
                         Gender: p.Gender
                     );
+                progressBar1.Value++;
             }
-
-
+            
             FillData();
+            progressBar1.Value = 0;
         }
 
         private void BackUpDbAsJsonFile(string fileName)
         {
             List<PersonForJson> people = new List<PersonForJson>(500);
 
+            progressBar1.Maximum = tbDbDataSet.Person.Rows.Count;
+            progressBar1.Value = 0;
             foreach (TbDbDataSet.PersonRow p in tbDbDataSet.Person.Rows)
             {
                 people.Add(
@@ -544,6 +560,7 @@ namespace TbPeopleList
                         ShomareHesab = p.ShomareHesab.Trim()
                     }
                    );
+                progressBar1.Value++;
             }
 
             var json = JsonConvert.SerializeObject(people,Formatting.Indented);
@@ -578,9 +595,9 @@ namespace TbPeopleList
             }
             catch (Exception err)
             {
-
                 MessageBox.Show(err.Message);
             }
+            progressBar1.Value = 0;
         }
 
 
@@ -617,5 +634,20 @@ namespace TbPeopleList
             //FoundDbs();
         }
 
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void personBindingSource_AddingNew(object sender, AddingNewEventArgs e)
+        {
+           
+        }
+
+        private void personBindingSource_PositionChanged(object sender, EventArgs e)
+        {
+            
+           // bindingNavigatorAddNewItem.Enabled = true;
+        }
     }
 }
